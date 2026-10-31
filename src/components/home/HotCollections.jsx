@@ -1,30 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 
 const HotCollections = () => {
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
-
   const [users, setUsers] = useState([]);
 
   async function fetchUsers() {
@@ -48,41 +29,40 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <Carousel showDots={true} responsive={responsive}>
-             {users.slice(0, 7).map((user, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
-              <div className="nft_coll">
-                <div className="nft_wrap">
-                  <Link to={`/item-details/${user.nftId}`}>
-                    <img
-                      src={user.nftImage}
-                      className="lazy img-fluid"
-                      alt=""
-                    />
-                  </Link>
-                </div>
-                <div className="nft_coll_pp">
-                  <Link to="/author">
-                    <img
-                      className="lazy pp-coll"
-                      src={user.authorImage}
-                      alt=""
-                    />
-                  </Link>
-                  <i className="fa fa-check"></i>
-                </div>
-                <div className="nft_coll_info">
-                  <Link to="/explore">
-                    <h4>{user.title}</h4>
-                  </Link>
-                  <span>ERC-{user.code}</span>
+          <OwlCarousel className="owl-theme" loop margin={10} nav>
+            {users.slice(0, 7).map((user, index) => (
+              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+                <div className="nft_coll">
+                  <div className="nft_wrap">
+                    <Link to={`/item-details/${user.nftId}`}>
+                      <img
+                        src={user.nftImage}
+                        className="lazy img-fluid"
+                        alt=""
+                      />
+                    </Link>
+                  </div>
+                  <div className="nft_coll_pp">
+                    <Link to="/author">
+                      <img
+                        className="lazy pp-coll"
+                        src={user.authorImage}
+                        alt=""
+                      />
+                    </Link>
+                    <i className="fa fa-check"></i>
+                  </div>
+                  <div className="nft_coll_info">
+                    <Link to="/explore">
+                      <h4>{user.title}</h4>
+                    </Link>
+                    <span>ERC-{user.code}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          </Carousel>
+            ))}
+          </OwlCarousel>
           ;
-         
         </div>
       </div>
     </section>
