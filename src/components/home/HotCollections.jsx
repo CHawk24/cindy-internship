@@ -1,16 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
 import axios from "axios";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const HotCollections = () => {
-  const [users, setUsers] =useState([])
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
+  const [users, setUsers] = useState([]);
 
   async function fetchUsers() {
-    const {data} = await axios.get(
-      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections");
-    setUsers(data)
+    const { data } = await axios.get(
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
+    );
+    setUsers(data);
   }
 
   useEffect(() => {
@@ -27,18 +48,26 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          
-            {users.slice(0, 4).map((user, index) => (
+          <Carousel showDots={true} responsive={responsive}>
+             {users.slice(0, 7).map((user, index) => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
               <div className="nft_coll">
                 <div className="nft_wrap">
                   <Link to={`/item-details/${user.nftId}`}>
-                    <img src={user.nftImage} className="lazy img-fluid" alt="" />
+                    <img
+                      src={user.nftImage}
+                      className="lazy img-fluid"
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div className="nft_coll_pp">
                   <Link to="/author">
-                    <img className="lazy pp-coll" src={user.authorImage} alt="" />
+                    <img
+                      className="lazy pp-coll"
+                      src={user.authorImage}
+                      alt=""
+                    />
                   </Link>
                   <i className="fa fa-check"></i>
                 </div>
@@ -51,9 +80,9 @@ const HotCollections = () => {
               </div>
             </div>
           ))}
-          
-          
-
+          </Carousel>
+          ;
+         
         </div>
       </div>
     </section>
